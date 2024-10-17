@@ -2,3 +2,7 @@
 .Rhistory
 .RData
 .Ruserdata
+.html #RMarkdown knitted htmls
+# Data files
+output
+data
