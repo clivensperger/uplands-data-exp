@@ -26,7 +26,7 @@ my_theme <- function() {
 }
 
 #------- Load Data --------------------
-visits <- read.csv('../uplands-dm/output/plot-visits-240722.csv')
+visits <- read.csv('../uplands-dm/output/plot-visits-250416.csv')
 
 #------- Clean up -------------
 visits <- visits %>%
@@ -38,6 +38,10 @@ visits <- visits %>%
 #------- Summaries -------------
 visit_totals_by_park <- visits %>%
   group_by(unit_code) %>%
+  summarize(n = n())
+
+visit_summary <- visits %>%
+  group_by(unit_code, year) %>%
   summarize(n = n())
 
 #------- Visualize -----------
@@ -83,6 +87,24 @@ blcu_dates <- visits %>%
   group_by(year) %>%
   summarize(year_min = min(start_date),
             year_max = max(start_date))
+
+## BRCA for trend report
+brca_visits <- visits %>%
+  filter(unit_code == 'BRCA') %>%
+  mutate(master_stratification = ifelse(master_stratification == 'High-MixedConifer', 'Mixed Conifer', 'Pinyon-Juniper')) %>%
+  group_by(unit_code, master_stratification, year) %>%
+  summarize(n = n()) %>%
+  mutate(total = ifelse(master_stratification == 'Mixed Conifer', 8, 10),
+         pct_complete = n/total*100) #number of scheduled plots per year)
+
+ggplot(brca_visits, aes(as.factor(year), pct_complete)) +
+  geom_col() +
+  facet_grid(master_stratification ~ .) +
+  labs(y = 'Percent of Plots Completed', x = 'Year') +
+  ylim(0, 100) +
+  my_theme()
+
+ggsave(filename = 'BRCA Plot Visits.jpg', path = './output/', width = 8, height = 4)
 
 ## --------- Sampling Effort by Stratum ---------------
 #-------- could rewrite this with a loop? --------------
