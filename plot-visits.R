@@ -56,9 +56,10 @@ p_all_parks_effort
 p_all_parks_stacked <- ggplot(visit_summary, aes(as.factor(year), n, fill = unit_code)) +
   geom_col(position = 'stack') +
   labs(y = 'Number of Plots', x = 'Year') +
-  my_theme()
+  my_theme() +
+  theme(axis.text.x = element_text(angle = 90))
 p_all_parks_stacked
-#ggsave(filename = 'Uplands Plot Effort Color.jpg', path = './Uplands/output', width = 8, height = 4)
+ggsave(filename = 'Uplands Plot Effort Color.jpg', path = './output', width = 8, height = 4)
 
 #------ Park Specific Summaries ----------
 ## BLCU for trend report
