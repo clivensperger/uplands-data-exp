@@ -26,7 +26,7 @@ my_theme <- function() {
 }
 
 #------- Load Data --------------------
-visits <- read.csv('../uplands-dm/output/plot-visits-250416.csv')
+visits <- read.csv('../uplands-dm/output/plot-visits-250603.csv')
 
 #------- Clean up -------------
 visits <- visits %>%
@@ -59,7 +59,7 @@ p_all_parks_stacked <- ggplot(visit_summary, aes(as.factor(year), n, fill = unit
   my_theme() +
   theme(axis.text.x = element_text(angle = 90))
 p_all_parks_stacked
-ggsave(filename = 'Uplands Plot Effort Color.jpg', path = './output', width = 8, height = 4)
+#ggsave(filename = 'Uplands Plot Effort Color.jpg', path = './output', width = 8, height = 4)
 
 #------ Park Specific Summaries ----------
 ## BLCU for trend report
